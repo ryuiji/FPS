@@ -17,10 +17,10 @@ public class GunScriptEditor : Editor
                 myGunScript.roundsPerMinute = EditorGUILayout.FloatField("Rounds per Minute", myGunScript.roundsPerMinute);
                 break;
             case FireType.SemiAutomatic:
-                myGunScript.fireRate = EditorGUILayout.FloatField("Fire Rate", myGunScript.fireRate);
+                myGunScript.semiFireRate = EditorGUILayout.FloatField("Time between shots", myGunScript.semiFireRate);
                 break;
             case FireType.BoltOrPumpAction:
-                myGunScript.roundsPerMinute = EditorGUILayout.FloatField("Pump Time", myGunScript.pumpTime);
+                myGunScript.pumpTime = EditorGUILayout.FloatField("Pump Time", myGunScript.pumpTime);
                 break;
 
         }

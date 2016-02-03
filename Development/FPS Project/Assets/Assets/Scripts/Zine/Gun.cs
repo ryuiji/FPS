@@ -17,6 +17,7 @@ public class Gun : MonoBehaviour
     public float timeBetweenShots;
     public AudioClip pumpSound;
     public float fireRate;
+    public float semiFireRate;
     public float pumpTime;
     public int ammoInClip;
     public int fullAmmoInClip;
@@ -30,7 +31,6 @@ public class Gun : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-
     }
 
     // Update is called once per frame
@@ -42,7 +42,7 @@ public class Gun : MonoBehaviour
             print(fireRate);
             Fire();
         }
-        if(Input.GetButtonDown("Reload") && ammoInClip!=fullAmmoInClip)
+        if (Input.GetButtonDown("Reload") && ammoInClip != fullAmmoInClip)
         {
             StopAllCoroutines();
             StartCoroutine("Reload");
@@ -56,8 +56,9 @@ public class Gun : MonoBehaviour
             switch (fireType)
             {
                 case FireType.SemiAutomatic:
-                    if (Input.GetButtonDown("Fire1"))
+                    if (Input.GetButtonDown("Fire1") && mayFire == true)
                     {
+                        StartCoroutine("CooldownSemiAuto");
                         FireBullet();
                     }
                     break;
@@ -123,6 +124,13 @@ public class Gun : MonoBehaviour
         mayFire = true;
     }
 
+    IEnumerator CooldownSemiAuto()
+    {
+        mayFire = false;
+        yield return new WaitForSeconds(semiFireRate);
+        mayFire = true;
+    }
+
     IEnumerator Empty()
     {
         print("StartCooldown");
@@ -144,10 +152,10 @@ public class Gun : MonoBehaviour
 
     IEnumerator Reload()
     {
-        mayFire=false;
+        mayFire = false;
         audioSource.PlayOneShot(reloadSound);
         yield return new WaitForSeconds(reloadSound.length);
-        mayFire=true;
-        ammoInClip=fullAmmoInClip;
+        mayFire = true;
+        ammoInClip = fullAmmoInClip;
     }
 }
