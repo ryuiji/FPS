@@ -49,9 +49,15 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(1))
+        GetInPut();
+    }
+
+
+    void GetInPut()
+    {
+        if (Input.GetMouseButton(1))
         {
-            transform.position=aimSpot.position;
+            transform.position = aimSpot.position;
         }
         else
         {
@@ -104,7 +110,7 @@ public class Gun : MonoBehaviour
                     }
                     break;
                 case FireType.BurstFire:
-                    if(Input.GetButtonDown("Fire1") && ammoInClip>=burstAmount && mayFire==true)
+                    if (Input.GetButtonDown("Fire1") && ammoInClip >= burstAmount && mayFire == true)
                     {
                         StartCoroutine("BurstFire");
                     }
@@ -147,7 +153,7 @@ public class Gun : MonoBehaviour
     void FireBullet()
     {
         audioSource.PlayOneShot(shot);
-        Instantiate(bullet,firePoint.transform.position,firePoint.rotation);
+        Instantiate(bullet, firePoint.transform.position, firePoint.rotation);
         ammoInClip--;
         print("boom headshot");
         UpdateUI();
@@ -155,14 +161,14 @@ public class Gun : MonoBehaviour
 
     IEnumerator BurstFire()
     {
-        mayFire=false;
-        for(int i =0; i<burstAmount; i++)
+        mayFire = false;
+        for (int i = 0; i < burstAmount; i++)
         {
             FireBullet();
             yield return new WaitForSeconds(burstSpeed);
         }
         yield return new WaitForSeconds(timeBetweenBurst);
-        mayFire=true;
+        mayFire = true;
     }
 
     IEnumerator Cooldown()
@@ -207,7 +213,7 @@ public class Gun : MonoBehaviour
             print("cant reload brah");
             UpdateUI();
             audioSource.Stop();
-            mayFire=true;
+            mayFire = true;
             StopCoroutine("Reload");
         }
         clipObj.SetActive(false);
@@ -222,7 +228,7 @@ public class Gun : MonoBehaviour
         else if (looseAmmo < fullAmmoInClip && looseAmmo > 0)
         {
             print("2");
-            if(looseAmmo+ammoInClip>fullAmmoInClip)
+            if (looseAmmo + ammoInClip > fullAmmoInClip)
             {
                 looseAmmo -= fullAmmoInClip - ammoInClip;
                 ammoInClip = fullAmmoInClip;

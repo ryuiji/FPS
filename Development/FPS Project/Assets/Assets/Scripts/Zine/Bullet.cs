@@ -14,13 +14,26 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position+=transform.forward*speed*Time.deltaTime;
-        if(Physics.Raycast(transform.position,transform.forward,1))
+        Move();
+        Collision();
+
+    }
+
+    void Move()
+    {
+        transform.position += transform.forward * speed * Time.deltaTime;
+    }
+
+    void Collision()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, 1))
         {
             print("hit");
             Instantiate(bulletImpact, transform.position, transform.rotation);
             Destroy(this.gameObject);
         }
     }
+
+
 
 }
