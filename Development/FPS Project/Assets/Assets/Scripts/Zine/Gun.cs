@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public enum FireType
@@ -21,21 +22,28 @@ public class Gun : MonoBehaviour
     public float pumpTime;
     public int ammoInClip;
     public int fullAmmoInClip;
+    public int looseAmmo;
     public float reloadSpeed;
     private bool mayFire = true;
     public AudioClip emptySound;
     public AudioClip shot;
     public AudioSource audioSource;
     public AudioClip reloadSound;
+    public Text clip, loose;
+    public Transform firePoint;
+    public GameObject clipObj;
+    public GameObject bullet;
     // Use this for initialization
     void Start()
     {
+        UpdateUI();
         audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetButton("Fire1"))
         {
             fireRate = 60 / roundsPerMinute;
@@ -110,12 +118,22 @@ public class Gun : MonoBehaviour
 
     }
 
+    void UpdateUI()
+    {
+        clip.text = ammoInClip.ToString();
+        loose.text = looseAmmo.ToString();
+    }
+
     void FireBullet()
     {
         audioSource.PlayOneShot(shot);
+        Instantiate(bullet,firePoint.transform.position,firePoint.rotation);
         ammoInClip--;
         print("boom headshot");
+        UpdateUI();
     }
+
+
 
     IEnumerator Cooldown()
     {
@@ -154,8 +172,54 @@ public class Gun : MonoBehaviour
     {
         mayFire = false;
         audioSource.PlayOneShot(reloadSound);
+        if (looseAmmo == 0)
+        {
+            print("cant reload brah");
+            UpdateUI();
+            audioSource.Stop();
+            mayFire=true;
+            StopCoroutine("Reload");
+        }
+        clipObj.SetActive(false);
         yield return new WaitForSeconds(reloadSound.length);
         mayFire = true;
-        ammoInClip = fullAmmoInClip;
+        if (looseAmmo >= fullAmmoInClip)
+        {
+            print("1");
+            looseAmmo -= fullAmmoInClip - ammoInClip;
+            ammoInClip = fullAmmoInClip;
+        }
+        else if (looseAmmo < fullAmmoInClip && looseAmmo > 0)
+        {
+            print("2");
+            if(looseAmmo+ammoInClip>fullAmmoInClip)
+            {
+                looseAmmo -= fullAmmoInClip - ammoInClip;
+                ammoInClip = fullAmmoInClip;
+            }
+            else
+            {
+                ammoInClip += looseAmmo;
+                looseAmmo -= looseAmmo;
+            }
+
+        }
+        clipObj.SetActive(true);
+        UpdateUI();
     }
+
+
+    private static float ClampAngle(float angle, float min, float max)
+    {
+        if (angle < -360)
+        {
+            angle += 360;
+        }
+        if (angle > 360)
+        {
+            angle -= 360;
+        }
+        return Mathf.Clamp(angle, min, max);
+    }
+
 }

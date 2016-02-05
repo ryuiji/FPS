@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using UnityEditor;
 
@@ -20,13 +21,15 @@ public class GunScriptEditor : Editor
                 myGunScript.semiFireRate = EditorGUILayout.FloatField("Time between shots", myGunScript.semiFireRate);
                 break;
             case FireType.BoltOrPumpAction:
-                myGunScript.pumpTime = EditorGUILayout.FloatField("Pump Time", myGunScript.pumpTime);
+                //myGunScript.pumpTime = EditorGUILayout.FloatField("Pump Time", myGunScript.pumpTime);
                 break;
 
         }
         myGunScript.ammoInClip = EditorGUILayout.IntField("Current Amount of Bullets", myGunScript.ammoInClip);
         myGunScript.fullAmmoInClip = EditorGUILayout.IntField("Max Amount of Bullets", myGunScript.fullAmmoInClip);
-        myGunScript.reloadSpeed = EditorGUILayout.FloatField("Time spent Reloading", myGunScript.reloadSpeed);
+        myGunScript.looseAmmo = EditorGUILayout.IntField("Ammo Carrying Around", myGunScript.looseAmmo);
+
+        //myGunScript.reloadSpeed = EditorGUILayout.FloatField("Time spent Reloading", myGunScript.reloadSpeed);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.PrefixLabel("EmptySound");
         myGunScript.emptySound =  (AudioClip)  EditorGUILayout.ObjectField(myGunScript.emptySound, typeof(AudioClip) , true);
@@ -42,6 +45,17 @@ public class GunScriptEditor : Editor
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.PrefixLabel("ReloadSound");
         myGunScript.reloadSound = (AudioClip)EditorGUILayout.ObjectField(myGunScript.reloadSound, typeof(AudioClip), true);
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.PrefixLabel("Clip And Loose");
+        myGunScript.clip = (Text)EditorGUILayout.ObjectField(myGunScript.clip, typeof(Text), true);
+        myGunScript.loose = (Text)EditorGUILayout.ObjectField(myGunScript.loose, typeof(Text), true);
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.PrefixLabel("Mag, firepoint, bullet");
+        myGunScript.clipObj = (GameObject)EditorGUILayout.ObjectField(myGunScript.clipObj, typeof(GameObject), true);
+        myGunScript.firePoint = (Transform)EditorGUILayout.ObjectField(myGunScript.firePoint, typeof(Transform), true);
+        myGunScript.bullet = (GameObject)EditorGUILayout.ObjectField(myGunScript.bullet, typeof(GameObject), true);
         EditorGUILayout.EndHorizontal();
 
     }
