@@ -23,6 +23,12 @@ public class GunScriptEditor : Editor
             case FireType.BoltOrPumpAction:
                 //myGunScript.pumpTime = EditorGUILayout.FloatField("Pump Time", myGunScript.pumpTime);
                 break;
+            case FireType.BurstFire:
+                myGunScript.burstAmount = EditorGUILayout.IntField("Burst Shot Amount", myGunScript.burstAmount);
+                myGunScript.timeBetweenBurst = EditorGUILayout.FloatField("Burst Shot Delay", myGunScript.timeBetweenBurst);
+                myGunScript.burstSpeed = EditorGUILayout.FloatField("Burst Rate of fire", myGunScript.burstSpeed);
+                break;
+
 
         }
         myGunScript.ammoInClip = EditorGUILayout.IntField("Current Amount of Bullets", myGunScript.ammoInClip);
@@ -56,6 +62,12 @@ public class GunScriptEditor : Editor
         myGunScript.clipObj = (GameObject)EditorGUILayout.ObjectField(myGunScript.clipObj, typeof(GameObject), true);
         myGunScript.firePoint = (Transform)EditorGUILayout.ObjectField(myGunScript.firePoint, typeof(Transform), true);
         myGunScript.bullet = (GameObject)EditorGUILayout.ObjectField(myGunScript.bullet, typeof(GameObject), true);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.PrefixLabel("Aim and Normal Spots");
+        myGunScript.aimSpot = (Transform)EditorGUILayout.ObjectField(myGunScript.aimSpot, typeof(Transform), true);
+        myGunScript.normalSpot = (Transform)EditorGUILayout.ObjectField(myGunScript.normalSpot, typeof(Transform), true);
         EditorGUILayout.EndHorizontal();
 
     }

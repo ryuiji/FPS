@@ -6,7 +6,8 @@ public enum FireType
 {
     Automatic,
     SemiAutomatic,
-    BoltOrPumpAction
+    BoltOrPumpAction,
+    BurstFire,
 }
 
 
@@ -16,6 +17,9 @@ public class Gun : MonoBehaviour
     public FireType fireType;
     public float roundsPerMinute;
     public float timeBetweenShots;
+    public int burstAmount;
+    public float timeBetweenBurst;
+    public float burstSpeed;
     public AudioClip pumpSound;
     public float fireRate;
     public float semiFireRate;
@@ -33,6 +37,8 @@ public class Gun : MonoBehaviour
     public Transform firePoint;
     public GameObject clipObj;
     public GameObject bullet;
+    public Transform aimSpot;
+    public Transform normalSpot;
     // Use this for initialization
     void Start()
     {
@@ -43,6 +49,14 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetMouseButton(1))
+        {
+            transform.position=aimSpot.position;
+        }
+        else
+        {
+            transform.position = normalSpot.position;
+        }
 
         if (Input.GetButton("Fire1"))
         {
@@ -89,6 +103,12 @@ public class Gun : MonoBehaviour
                         StartCoroutine("Pump");
                     }
                     break;
+                case FireType.BurstFire:
+                    if(Input.GetButtonDown("Fire1") && ammoInClip>=burstAmount && mayFire==true)
+                    {
+                        StartCoroutine("BurstFire");
+                    }
+                    break;
             }
         }
         else if (mayFire == true && ammoInClip == 0)
@@ -133,7 +153,17 @@ public class Gun : MonoBehaviour
         UpdateUI();
     }
 
-
+    IEnumerator BurstFire()
+    {
+        mayFire=false;
+        for(int i =0; i<burstAmount; i++)
+        {
+            FireBullet();
+            yield return new WaitForSeconds(burstSpeed);
+        }
+        yield return new WaitForSeconds(timeBetweenBurst);
+        mayFire=true;
+    }
 
     IEnumerator Cooldown()
     {

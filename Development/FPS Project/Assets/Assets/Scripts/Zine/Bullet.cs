@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Rigidbody>().velocity=transform.forward*speed;
+        transform.position+=transform.forward*speed*Time.deltaTime;
         if(Physics.Raycast(transform.position,transform.forward,1))
         {
             print("hit");
