@@ -6,7 +6,7 @@ using UnityEditor;
 [CustomEditor(typeof(Gun))]
 public class GunScriptEditor : Editor
 {
-    
+
 
     public override void OnInspectorGUI()
     {
@@ -38,7 +38,7 @@ public class GunScriptEditor : Editor
         //myGunScript.reloadSpeed = EditorGUILayout.FloatField("Time spent Reloading", myGunScript.reloadSpeed);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.PrefixLabel("EmptySound");
-        myGunScript.emptySound =  (AudioClip)  EditorGUILayout.ObjectField(myGunScript.emptySound, typeof(AudioClip) , true);
+        myGunScript.emptySound = (AudioClip)EditorGUILayout.ObjectField(myGunScript.emptySound, typeof(AudioClip), true);
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.PrefixLabel("ShotSound");
@@ -69,6 +69,13 @@ public class GunScriptEditor : Editor
         myGunScript.aimSpot = (Transform)EditorGUILayout.ObjectField(myGunScript.aimSpot, typeof(Transform), true);
         myGunScript.normalSpot = (Transform)EditorGUILayout.ObjectField(myGunScript.normalSpot, typeof(Transform), true);
         EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.PrefixLabel("Recoil Script");
+        myGunScript.recoil = (Recoil)EditorGUILayout.ObjectField(myGunScript.recoil, typeof(Recoil), true);
+        EditorGUILayout.EndHorizontal();
+        myGunScript.recoilAmount = EditorGUILayout.FloatField("Recoil Amount", myGunScript.recoilAmount);
+        myGunScript.recoilLength = EditorGUILayout.FloatField("Recoil Length", myGunScript.recoilLength);
 
     }
 }

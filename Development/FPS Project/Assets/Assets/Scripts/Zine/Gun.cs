@@ -39,6 +39,9 @@ public class Gun : MonoBehaviour
     public GameObject bullet;
     public Transform aimSpot;
     public Transform normalSpot;
+    public float recoilAmount;
+    public float recoilLength;
+    public Recoil recoil;
     // Use this for initialization
     void Start()
     {
@@ -50,6 +53,12 @@ public class Gun : MonoBehaviour
     void Update()
     {
         GetInPut();
+        Recoil();
+    }
+
+    void Recoil()
+    {
+
     }
 
 
@@ -152,6 +161,7 @@ public class Gun : MonoBehaviour
 
     void FireBullet()
     {
+        recoil.Shake(recoilAmount,fireRate);
         audioSource.PlayOneShot(shot);
         Instantiate(bullet, firePoint.transform.position, firePoint.rotation);
         ammoInClip--;
