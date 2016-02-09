@@ -161,7 +161,7 @@ public class Gun : MonoBehaviour
 
     void FireBullet()
     {
-        recoil.Shake(recoilAmount,fireRate);
+        recoil.StartShake(recoilAmount,fireRate);
         audioSource.PlayOneShot(shot);
         Instantiate(bullet, firePoint.transform.position, firePoint.rotation);
         ammoInClip--;

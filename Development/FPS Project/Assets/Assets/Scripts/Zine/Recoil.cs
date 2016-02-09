@@ -7,12 +7,17 @@ public class Recoil : MonoBehaviour
     float shakeAmount = 0;
     // Use this for initialization
 
+    public void StartShake(float amt, float length)
+    {
+        StartCoroutine(Shake(amt,length));
+    }
     
-    public void Shake(float amt, float length)
+    public IEnumerator Shake(float amt, float length)
     {
         shakeAmount = amt;
-        InvokeRepeating("DoShake", 0, 0.01f);
-        Invoke("StopShake", length);
+        DoShake();
+        yield return new WaitForSeconds(length);
+        StopShake();
     }
 
     void DoShake()
@@ -20,9 +25,9 @@ public class Recoil : MonoBehaviour
         if (shakeAmount > 0)
         {
             Vector3 camPos = shakeObject.transform.position;
-            float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
+            //float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
             float offsetY = Random.value * shakeAmount * 2 - shakeAmount;
-            camPos.x += offsetX;
+            //camPos.x += offsetX;
             camPos.y += offsetY;
 
             shakeObject.transform.position = camPos;
@@ -31,7 +36,6 @@ public class Recoil : MonoBehaviour
 
     void StopShake()
     {
-           CancelInvoke("DoShake");
         shakeObject.transform.localPosition = Vector3.zero;
     }
 }
