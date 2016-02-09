@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MenuManager : MonoBehaviour {
 	public GameObject rightCanvas;
+	private bool isOn = true;
 
 	public enum AllOptions {
 		StartGame,
@@ -13,10 +14,6 @@ public class MenuManager : MonoBehaviour {
 	}
 	public AllOptions Option;
 
-	void Awake () {
-		rightCanvas.SetActive(true);
-	}
-	
 	public void OnMouseDown () {
 		switch(Option){
 			case AllOptions.StartGame:
@@ -43,11 +40,12 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	void StartGame () {
-
+		// Load Level
 	}
 
 	void ShowOptions () {
-
+		rightCanvas.SetActive(isOn);
+		isOn = !isOn;
 	}
 
 	void ShowControls () {
