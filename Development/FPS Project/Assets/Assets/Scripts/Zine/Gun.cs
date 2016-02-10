@@ -49,17 +49,14 @@ public class Gun : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
         GetInPut();
-        Recoil();
     }
 
-    void Recoil()
-    {
-
-    }
 
 
     void GetInPut()
