@@ -6,7 +6,7 @@ public class MenuManager : MonoBehaviour {
 	public GameObject leftCanvas;
 	public GameObject rightCanvas;
 	public GameObject optionMenu;
-	private bool isOn = true;
+	public bool isOn = true;
 	private bool isFading;
 
 	public enum AllOptions {
@@ -17,6 +17,15 @@ public class MenuManager : MonoBehaviour {
 		MainMenu,
 	}
 	public AllOptions Option;
+
+	void GetInput () {
+		if(Input.GetButtonDown("Cancel")){
+			leftCanvas.SetActive(isOn);
+			rightCanvas.SetActive(isOn);
+			isOn = !isOn;
+			Debug.Log ("De functie GetInput wordt uitgevoerd.");
+		}
+	}
 
 	public void OnMouseDown () {
 		switch(Option){
@@ -47,24 +56,21 @@ public class MenuManager : MonoBehaviour {
 		GetInput();
 		print(isOn);
 	}
-
-	void GetInput () {
-		if(Input.GetButtonDown("Cancel")){
-			leftCanvas.SetActive(isOn);
-			rightCanvas.SetActive(isOn);
-			isOn = !isOn;
-		}
-	}
+	/*
+		
+	*/
 
 	void Resume () {
 		isOn = true;
-		leftCanvas.SetActive(false);
-		optionMenu.SetActive(false);
+		leftCanvas.SetActive(!isOn);
+		optionMenu.SetActive(!isOn);
+		Debug.Log ("De functie Resume wordt uitgevoerd. Dit moet isOn op true zetten.");
 	}
 
 	void ShowOptions () {
 		optionMenu.SetActive(isOn);
 		isOn = !isOn;
+		Debug.Log ("De functie ShowOptions wordt uitgevoerd.");
 	}
 
 	void ShowControls () {
