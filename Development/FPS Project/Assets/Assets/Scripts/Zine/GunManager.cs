@@ -11,11 +11,14 @@ public class GunManager : GunBase
 
     public void Shoot()
     {
-        print("Yarak");
-        Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
-        bulletsInClip--;
-        audioSource.PlayOneShot(fire);
-        UpdateUI();
+        if (mayFire == true)
+        {
+            print("Yarak");
+            Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
+            bulletsInClip--;
+            audioSource.PlayOneShot(fire);
+            UpdateUI();
+        }
     }
 
     public IEnumerator Reload()
@@ -64,16 +67,16 @@ public class GunManager : GunBase
 
     public IEnumerator RateOfFire()
     {
-        mayFire=false;
+        mayFire = false;
         yield return new WaitForSeconds(fireRate);
-        mayFire=true;
+        mayFire = true;
     }
 
     public void UpdateUI()
     {
-        looseAmmoText.text=looseAmmo.ToString("F0");
+        looseAmmoText.text = looseAmmo.ToString("F0");
         currentAmmoText.text = bulletsInClip.ToString("F0");
-        gunNameText.text=gunName;
+        gunNameText.text = gunName;
     }
 
 
