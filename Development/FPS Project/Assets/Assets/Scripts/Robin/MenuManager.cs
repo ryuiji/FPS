@@ -5,8 +5,9 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour {
 	public GameObject leftCanvas;
 	public GameObject rightCanvas;
-	private bool showMenu = true;
-	private bool showOptions = true;
+	public GameObject optionMenu;
+	public bool showMenu = true;
+	public bool showOptions = true;
 
 	public enum AllOptions {
 		Restart,
@@ -42,32 +43,38 @@ public class MenuManager : MonoBehaviour {
 				Debug.Log("De knop return is ingedrukt.");
 				//
 				break;
+			case AllOptions.Back:
+				Debug.Log("Sluit menu");
+				optionMenu.SetActive(false);
+				break;
 		}
 	}
 
-	void Switch () {
+	public void Switch () {
 		showMenu = !showMenu;
 		Debug.Log("De function Switch() wordt nu uitgevoerd.");
 		Debug.Log(showMenu);
 	}
 
-	void SwitchMenu () {
+	public void SwitchMenu () {
+		showOptions = !showOptions;
 		leftCanvas.SetActive(showMenu);
-		Debug.Log("SwitchMenu wordt uitgevoerd. Leftcanvas gaat aan/uit.");
+		rightCanvas.SetActive(showMenu);
+		Debug.Log("SwitchMenu wordt uitgevoerd. Leftcanvas + Rightcanvas gaat aan/uit.");
 		Switch();
 	}
 
-	void SwitchOptions () {
-		rightCanvas.SetActive(showOptions);
+	public void SwitchOptions () {
 		showOptions = !showOptions;
-		Debug.Log("SwitchOptions wordt uitgevoerd. Rightcanvas gaat aan/uit.");
+		optionMenu.SetActive(showOptions);
+		Debug.Log("SwitchOptions wordt uitgevoerd. OptionMenu gaat aan/uit.");
 	}
 
-	void Update () {
+	public void Update () {
 		GetInput();
 	}
 
-	void LoadLevel () {
+	public void LoadLevel () {
 		Application.LoadLevel(0);
 		Debug.Log("Het level wordt volledige herladen.");
 	}
