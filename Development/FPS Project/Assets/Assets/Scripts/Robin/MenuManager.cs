@@ -1,18 +1,17 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour {
 	public GameObject leftCanvas;
 	public GameObject rightCanvas;
 	public GameObject optionMenu;
-	public GameObject creditMenu;
 
 	public GameObject[] allMenus;
 
 	public bool showMenu;
 	public bool showOptions;
-	public bool showCredits;
 
 	void GetInput () {
 		if(Input.GetButtonDown("Cancel")){
@@ -23,6 +22,8 @@ public class MenuManager : MonoBehaviour {
 
 	public void EnableDisableMenu () {
 		leftCanvas.SetActive(showMenu);
+		optionMenu.SetActive(false);
+		showOptions = true;
 		showMenu = !showMenu;
 	}
 
@@ -32,18 +33,13 @@ public class MenuManager : MonoBehaviour {
 		showOptions = !showOptions;
 	}
 
-	public void EnableDisableCredits () {
-		creditMenu.SetActive(showCredits);
-		showCredits = !showCredits;
-	}
-
 	public void Resume () {
 		DisableAll();
 	}
 
 	public void Restart () {
 		DisableAll();
-		Application.LoadLevel(0);
+		SceneManager.LoadScene(0);
 	}
 
 	void DisableAll () {
@@ -56,7 +52,6 @@ public class MenuManager : MonoBehaviour {
 	void ResetBool () {
 		showMenu = true;
 		showOptions = true;
-		showCredits = true;
 	}
 
 	public void Update () {
