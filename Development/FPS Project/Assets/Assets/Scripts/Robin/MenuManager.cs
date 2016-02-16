@@ -6,76 +6,60 @@ public class MenuManager : MonoBehaviour {
 	public GameObject leftCanvas;
 	public GameObject rightCanvas;
 	public GameObject optionMenu;
-	public bool showMenu = true;
-	public bool showOptions = true;
+	public GameObject creditMenu;
 
-	public enum AllOptions {
-		Restart,
-		Options,
-		Credits,
-		MainMenu,
-		Back,
-	}
-	public AllOptions Option;
+	public GameObject[] allMenus;
+
+	public bool showMenu;
+	public bool showOptions;
+	public bool showCredits;
 
 	void GetInput () {
 		if(Input.GetButtonDown("Cancel")){
-			SwitchMenu();
+			EnableDisableMenu();
 			Debug.Log("De ESC knop is ingedrukt, de SwitchMenu wordt aangeroepen.");
 		}
 	}
 
-	public void OnMouseDown () {
-		switch(Option){
-			case AllOptions.Restart:
-				Debug.Log("De knop restart is ingedrukt.");
-				LoadLevel();
-				break;
-			case AllOptions.Options:
-				Debug.Log("De knop options is ingedrukt.");
-				SwitchOptions();
-				break;
-			case AllOptions.Credits:
-				Debug.Log("De knop credits is ingedrukt.");
-				//
-				break;
-			case AllOptions.MainMenu:
-				Debug.Log("De knop return is ingedrukt.");
-				//
-				break;
-			case AllOptions.Back:
-				Debug.Log("Sluit menu");
-				optionMenu.SetActive(false);
-				break;
+	public void EnableDisableMenu () {
+		leftCanvas.SetActive(showMenu);
+		showMenu = !showMenu;
+	}
+
+	public void EnableDisableOptions () {
+		rightCanvas.SetActive(showOptions);
+		optionMenu.SetActive(showOptions);
+		showOptions = !showOptions;
+	}
+
+	public void EnableDisableCredits () {
+		creditMenu.SetActive(showCredits);
+		showCredits = !showCredits;
+	}
+
+	public void Resume () {
+		DisableAll();
+	}
+
+	public void Restart () {
+		DisableAll();
+		Application.LoadLevel(0);
+	}
+
+	void DisableAll () {
+		for(int i = 0; i < allMenus.Length; i++){
+			allMenus[i].SetActive(false);
+			ResetBool();
 		}
 	}
 
-	public void Switch () {
-		showMenu = !showMenu;
-		Debug.Log("De function Switch() wordt nu uitgevoerd.");
-		Debug.Log(showMenu);
-	}
-
-	public void SwitchMenu () {
-		showOptions = !showOptions;
-		leftCanvas.SetActive(showMenu);
-		rightCanvas.SetActive(showMenu);
-		Debug.Log("SwitchMenu wordt uitgevoerd. Leftcanvas + Rightcanvas gaat aan/uit.");
-		Switch();
-	}
-
-	public void SwitchOptions () {
-		showOptions = !showOptions;
-		optionMenu.SetActive(showOptions);
-		Debug.Log("SwitchOptions wordt uitgevoerd. OptionMenu gaat aan/uit.");
+	void ResetBool () {
+		showMenu = true;
+		showOptions = true;
+		showCredits = true;
 	}
 
 	public void Update () {
 		GetInput();
-	}
-
-	public void LoadLevel () {
-		Application.LoadLevel(0);
-		Debug.Log("Het level wordt volledige herladen.");
 	}
 }
