@@ -11,12 +11,13 @@ public class GunDelegates : GunManager
 
     delegate void AddAmmunition(float ammo);
     AddAmmunition addAmmo;
+
     // Use this for initialization
     void Start()
     {
         UpdateUI();
-        shoot=Shoot;
-        addAmmo=AddAmmo;
+        shoot = Shoot;
+        addAmmo = AddAmmo;
         fireRate = 60 / roundsPerMinute;
     }
 
@@ -29,16 +30,16 @@ public class GunDelegates : GunManager
     void Aim()
     {
         print("aiming");
-        transform.position = Vector3.MoveTowards(transform.position,aimSpot.position,aimSpeed*Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, aimSpot.position, aimSpeed * Time.deltaTime);
     }
 
     void GetInput()
     {
-        if(Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1"))
         {
             PullTrigger();
         }
-        if(Input.GetButton("Fire2"))
+        if (Input.GetButton("Fire2"))
         {
             Aim();
         }
@@ -46,7 +47,7 @@ public class GunDelegates : GunManager
         {
             transform.position = Vector3.MoveTowards(transform.position, normalSpot.position, aimSpeed * Time.deltaTime);
         }
-        if(Input.GetButtonDown("Reload"))
+        if (Input.GetButtonDown("Reload"))
         {
             StartCoroutine("Reload");
         }
@@ -94,7 +95,7 @@ public class GunDelegates : GunManager
         }
         else if (mayFire == true && bulletsInClip == 0)
         {
-            if(!audioSource.isPlaying)
+            if (!audioSource.isPlaying)
             {
                 audioSource.PlayOneShot(empty);
             }
