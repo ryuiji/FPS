@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.ImageEffects;
 
 public class MenuManager : MonoBehaviour {
 	public GameObject leftCanvas;
@@ -21,6 +22,7 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	public void EnableDisableMenu () {
+		Camera.main.GetComponent<DepthOfField>().enabled = showMenu;
 		leftCanvas.SetActive(showMenu);
 		optionMenu.SetActive(false);
 		showOptions = true;
@@ -40,6 +42,10 @@ public class MenuManager : MonoBehaviour {
 	public void Restart () {
 		DisableAll();
 		SceneManager.LoadScene(0);
+	}
+
+	public void Exit () {
+		Application.Quit();
 	}
 
 	void DisableAll () {
