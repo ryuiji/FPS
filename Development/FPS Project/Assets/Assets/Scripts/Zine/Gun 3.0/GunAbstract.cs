@@ -38,6 +38,10 @@ public abstract class GunAbstract : MonoBehaviour
 
     public abstract void PassDelegates();
 
+    public abstract IEnumerator RateOfFire();
+
+    public abstract void PullTrigger();
+
 
 
 }

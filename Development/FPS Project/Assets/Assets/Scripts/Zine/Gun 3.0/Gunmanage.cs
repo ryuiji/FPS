@@ -32,7 +32,7 @@ public class Gunmanage : MonoBehaviour
             SwitchToPistol();
         }
 
-        if (Input.GetButtonDown("Jump") && shoot!=null)
+        if (Input.GetButton("Jump") && shoot!=null)
         {
             shoot();
         }
