@@ -10,8 +10,8 @@ public class MenuManager : MonoBehaviour {
 
 	public GameObject[] allMenus;
 
-	public bool showMenu;
-	public bool showOptions;
+	private bool showMenu = true;
+	private bool showOptions = true;
 
 	void GetInput () {
 		if(Input.GetButtonDown("Cancel")){
