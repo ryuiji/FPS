@@ -2,14 +2,17 @@
 using System.Collections;
 using System;
 
-public class Pistol : GunAbstract {
-    public void Start()
+public class Pistol : GunAbstract
+{
+    public void OnEnable()
     {
-        fireRate=60/roundsPerMinute;
+        fireRate = 60 / roundsPerMinute;
+        gunManager.pass = PassDelegates;
     }
 
     public override void Shoot()
     {
+        bulletsInClip--;
         print("firedPistol");
         audioSource.PlayOneShot(fire);
         Instantiate(bullet, firePoint.position, firePoint.rotation);
@@ -17,18 +20,60 @@ public class Pistol : GunAbstract {
 
     public override IEnumerator Reload()
     {
-        return null;
+        if (isReloading == false)
+        {
+            StopCoroutine("RateOfFire");
+            isReloading = true;
+            mayFire = false;
+            if (looseAmmo == 0)
+            {
+                print("cant reload brah");
+                mayFire = true;
+                StopCoroutine("Reload");
+            }
+            audioSource.PlayOneShot(reload);
+            yield return new WaitForSeconds(reloadSpeed);
+            isReloading = false;
+            mayFire = true;
+            if (looseAmmo >= clipSize)
+            {
+                print("1");
+                looseAmmo -= clipSize - bulletsInClip;
+                bulletsInClip = clipSize;
+            }
+            else if (looseAmmo < clipSize && looseAmmo > 0)
+            {
+                print("2");
+                if (looseAmmo + bulletsInClip > clipSize)
+                {
+                    looseAmmo -= clipSize - bulletsInClip;
+                    bulletsInClip = clipSize;
+                }
+                else
+                {
+                    bulletsInClip += looseAmmo;
+                    looseAmmo -= looseAmmo;
+                }
+
+            }
+        }
     }
 
     public override void Aim()
     {
+        transform.position = Vector3.MoveTowards(transform.position, aimSpot.position, aimSpeed * Time.deltaTime);
+    }
 
+    public override void UnAim()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, normalSpot.position, aimSpeed * Time.deltaTime);
     }
 
     public override void PassDelegates()
     {
         gunManager.shoot = PullTrigger;
         gunManager.aim = Aim;
+        gunManager.unAim = UnAim;
         gunManager.reload = Reload;
     }
 
@@ -39,7 +84,7 @@ public class Pistol : GunAbstract {
             switch (fireMode)
             {
                 case CurrentFireMode.SemiAutomatic:
-                    if (Input.GetButtonDown("Jump") && mayFire == true)
+                    if (Input.GetButtonDown("Fire1") && mayFire == true)
                     {
                         Shoot();
                         StartCoroutine("RateOfFire");
@@ -70,8 +115,8 @@ public class Pistol : GunAbstract {
 
     public override IEnumerator RateOfFire()
     {
-        mayFire=false;
+        mayFire = false;
         yield return new WaitForSeconds(fireRate);
-        mayFire=true;
+        mayFire = true;
     }
 }

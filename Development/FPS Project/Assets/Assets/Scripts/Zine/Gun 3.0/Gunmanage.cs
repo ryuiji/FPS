@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Gunmanage : MonoBehaviour
 {
@@ -9,10 +10,13 @@ public class Gunmanage : MonoBehaviour
     public ReloadGun reload;
     public delegate void Aim();
     public Aim aim;
+    public delegate void UnAim();
+    public UnAim unAim;
     public delegate void PassDelegates();
     public PassDelegates pass;
-    public AK47 ak47;
-    public Pistol pistol;
+    public GameObject[] gunList;
+
+    
     // Use this for initialization
     void Start()
     {
@@ -22,32 +26,68 @@ public class Gunmanage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        GetInput();
+    }
+
+    void GetInput()
+    {
+        if (Input.GetButtonDown("WeaponOne") && CheckGun(0)==true)
         {
-            SwitchToAK();
+            SwitchWeapon(0);
         }
 
-        if((Input.GetMouseButtonDown(1)))
+        if (Input.GetButtonDown("WeaponTwo") && CheckGun(1) == true)
         {
-            SwitchToPistol();
+            SwitchWeapon(1);
         }
 
-        if (Input.GetButton("Jump") && shoot!=null)
+        if (Input.GetButton("Fire1") && shoot != null)
         {
+            print("shoot");
             shoot();
         }
+
+        if(Input.GetMouseButton(1) && aim !=null)
+        {
+            aim();
+        }
+        else if(unAim != null)
+        {
+            unAim();
+        }
+
+        if(Input.GetButtonDown("Reload"))
+        {
+            StartCoroutine(reload());
+        }
     }
 
-    void SwitchToAK()
+    void SwitchWeapon(int i)
     {
-        pass = ak47.PassDelegates;
+        DeactivateWeapons();
+        gunList[i].SetActive(true);
+        print("switched weapon");
         pass();
     }
 
-    void SwitchToPistol()
+    void DeactivateWeapons()
     {
-        pass = pistol.PassDelegates;
-        pass();
+        for(int i =0; i<gunList.Length; i++)
+        {
+            gunList[i].SetActive(false);
+        }
+    }
+
+    bool CheckGun(int i)
+    {
+        if(gunList[i].active==false)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

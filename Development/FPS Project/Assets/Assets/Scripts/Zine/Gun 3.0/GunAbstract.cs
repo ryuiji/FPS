@@ -8,6 +8,14 @@ public enum CurrentFireMode
     PumpAction,
     SemiAutomatic,
 }
+
+public enum WeaponClass
+{
+    Primary,
+    Secondary,
+    Melee,
+}
+
 public abstract class GunAbstract : MonoBehaviour
 {
     public string gunName;
@@ -19,9 +27,14 @@ public abstract class GunAbstract : MonoBehaviour
     public GameObject bullet;
     public Transform firePoint;
     public CurrentFireMode fireMode;
+    public WeaponClass weaponClass;
     public bool mayFire = true;
     public float fireRate;
+    public bool isReloading;
     public Gunmanage gunManager;
+    public Transform aimSpot;
+    public Transform normalSpot;
+    public float aimSpeed;
 
     [Header("Sound Files")]
     public AudioSource audioSource;
@@ -35,6 +48,8 @@ public abstract class GunAbstract : MonoBehaviour
     public abstract IEnumerator Reload();
 
     public abstract void Aim();
+
+    public abstract void UnAim();
 
     public abstract void PassDelegates();
 
