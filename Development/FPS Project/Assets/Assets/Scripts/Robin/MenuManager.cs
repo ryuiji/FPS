@@ -17,7 +17,6 @@ public class MenuManager : MonoBehaviour {
 	void GetInput () {
 		if(Input.GetButtonDown("Cancel")){
 			EnableDisableMenu();
-			Debug.Log("De ESC knop is ingedrukt, de SwitchMenu wordt aangeroepen.");
 		}
 	}
 
