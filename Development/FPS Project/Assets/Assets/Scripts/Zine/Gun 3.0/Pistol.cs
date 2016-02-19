@@ -15,6 +15,7 @@ public class Pistol : GunAbstract
         bulletsInClip--;
         print("firedPistol");
         audioSource.PlayOneShot(fire);
+        bullet.GetComponent<Bullet>().damage = damage;
         Instantiate(bullet, firePoint.position, firePoint.rotation);
     }
 

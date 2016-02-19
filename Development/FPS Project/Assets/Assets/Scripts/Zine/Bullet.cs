@@ -5,6 +5,8 @@ public class Bullet : MonoBehaviour
 {
     public GameObject bulletImpact;
     public float speed;
+    public int damage;
+    public RaycastHit hit;
     // Use this for initialization
     void Start()
     {
@@ -26,10 +28,14 @@ public class Bullet : MonoBehaviour
 
     void Collision()
     {
-        if (Physics.Raycast(transform.position, transform.forward, 1))
+        if (Physics.Raycast(transform.position, transform.forward,out hit, 3))
         {
             print("hit");
-            Instantiate(bulletImpact, transform.position, transform.rotation);
+            //Instantiate(bulletImpact, transform.position, transform.rotation);
+            if(hit.transform.tag=="EnemyBodyPart")
+            {
+                hit.transform.GetComponent<EnemyBodyParts>().DoDamage(damage);
+            }
             Destroy(this.gameObject);
         }
     }

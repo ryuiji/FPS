@@ -15,6 +15,7 @@ public class AK47 : GunAbstract
         bulletsInClip--;
         print("firedAk");
         audioSource.PlayOneShot(fire);
+        bullet.GetComponent<Bullet>().damage=damage;
         Instantiate(bullet, firePoint.position, firePoint.rotation);
     }
 

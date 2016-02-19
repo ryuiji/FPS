@@ -35,6 +35,7 @@ public abstract class GunAbstract : MonoBehaviour
     public Transform aimSpot;
     public Transform normalSpot;
     public float aimSpeed;
+    public int damage;
 
     [Header("Sound Files")]
     public AudioSource audioSource;
