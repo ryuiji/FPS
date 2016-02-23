@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 public class AK47 : GunAbstract
 {
@@ -16,13 +15,16 @@ public class AK47 : GunAbstract
         print("firedAk");
         audioSource.PlayOneShot(fire);
         bullet.GetComponent<Bullet>().damage=damage;
-        Instantiate(bullet, firePoint.position, firePoint.rotation);
+        IncreaseRecoil();
+        Instantiate(bullet, firePoint.position + new Vector3(Random.Range(minRecoilX,maxRecoilX) * recoilAmount, Random.Range(minRecoilY, maxRecoilY) * recoilAmount, 0), firePoint.rotation);
     }
 
     public override IEnumerator Reload()
     {
+
         if (isReloading == false)
         {
+            gunManager.isReloading = true;
             StopCoroutine("RateOfFire");
             isReloading = true;
             mayFire = false;
@@ -57,6 +59,7 @@ public class AK47 : GunAbstract
                 }
 
             }
+            gunManager.isReloading = false;
         }
 
 
@@ -74,10 +77,12 @@ public class AK47 : GunAbstract
 
     public override void PassDelegates()
     {
+        audioSource=gunManager.gunAudio;
         gunManager.shoot = PullTrigger;
         gunManager.aim = Aim;
         gunManager.unAim = UnAim;
         gunManager.reload = Reload;
+        gunManager.decrease = DecreaseRecoil;
     }
 
     public override void PullTrigger()
@@ -113,6 +118,22 @@ public class AK47 : GunAbstract
                     }
                     break;
             }
+        }
+    }
+
+    public override void IncreaseRecoil()
+    {
+        if(recoilAmount<maxRecoilAmount)
+        {
+            recoilAmount+=0.1f;
+        }
+    }
+
+    public override void DecreaseRecoil()
+    {
+        if (recoilAmount > 0 )
+        {
+            recoilAmount -= 1f * Time.deltaTime;
         }
     }
 

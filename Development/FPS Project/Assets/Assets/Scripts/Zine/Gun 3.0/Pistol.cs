@@ -16,6 +16,7 @@ public class Pistol : GunAbstract
         print("firedPistol");
         audioSource.PlayOneShot(fire);
         bullet.GetComponent<Bullet>().damage = damage;
+        IncreaseRecoil();
         Instantiate(bullet, firePoint.position, firePoint.rotation);
     }
 
@@ -23,6 +24,7 @@ public class Pistol : GunAbstract
     {
         if (isReloading == false)
         {
+            gunManager.isReloading=true;
             StopCoroutine("RateOfFire");
             isReloading = true;
             mayFire = false;
@@ -57,6 +59,7 @@ public class Pistol : GunAbstract
                 }
 
             }
+            gunManager.isReloading = true;
         }
     }
 
@@ -72,10 +75,12 @@ public class Pistol : GunAbstract
 
     public override void PassDelegates()
     {
+        audioSource = gunManager.gunAudio;
         gunManager.shoot = PullTrigger;
         gunManager.aim = Aim;
         gunManager.unAim = UnAim;
         gunManager.reload = Reload;
+        gunManager.decrease = DecreaseRecoil;
     }
 
     public override void PullTrigger()
@@ -111,6 +116,22 @@ public class Pistol : GunAbstract
                     }
                     break;
             }
+        }
+    }
+
+    public override void IncreaseRecoil()
+    {
+        if (recoilAmount < maxRecoilAmount)
+        {
+            recoilAmount += 0.5f * Time.deltaTime;
+        }
+    }
+
+    public override void DecreaseRecoil()
+    {
+        if (recoilAmount > 0)
+        {
+            recoilAmount -= 0.5f * Time.deltaTime;
         }
     }
 

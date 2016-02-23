@@ -14,8 +14,11 @@ public class Gunmanage : MonoBehaviour
     public UnAim unAim;
     public delegate void PassDelegates();
     public PassDelegates pass;
+    public delegate void DecreaseRecoil();
+    public DecreaseRecoil decrease;
     public GameObject[] gunList;
-
+    public AudioSource gunAudio;
+    public bool isReloading;
     
     // Use this for initialization
     void Start()
@@ -46,6 +49,10 @@ public class Gunmanage : MonoBehaviour
             print("shoot");
             shoot();
         }
+        if (!Input.GetButton("Fire1") && decrease!=null)
+        {
+            decrease();
+        }
 
         if(Input.GetMouseButton(1) && aim !=null)
         {
@@ -56,9 +63,15 @@ public class Gunmanage : MonoBehaviour
             unAim();
         }
 
-        if(Input.GetButtonDown("Reload"))
+        if(Input.GetButtonDown("Reload") && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
         {
             StartCoroutine(reload());
+        }
+
+        if(Input.GetAxis("Horizontal")>0 || Input.GetAxis("Vertical") > 0 && isReloading==true)
+        {
+            StopCoroutine(reload());
+            gunAudio.Stop();
         }
     }
 

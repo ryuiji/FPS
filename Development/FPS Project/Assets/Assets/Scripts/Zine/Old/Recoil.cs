@@ -4,8 +4,16 @@ using System.Collections;
 public class Recoil : MonoBehaviour
 {
     public GameObject shakeObject;
-    float shakeAmount = 0;
+    public float shakeAmount = 0;
     // Use this for initialization
+    public void Update()
+    {
+        if(Input.GetButton("Fire1"))
+        {
+            StartShake(shakeAmount, 0.1f);
+        }
+    }
+    
 
     public void StartShake(float amt, float length)
     {
@@ -25,9 +33,9 @@ public class Recoil : MonoBehaviour
         if (shakeAmount > 0)
         {
             Vector3 camPos = shakeObject.transform.position;
-            //float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
+            float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
             float offsetY = Random.value * shakeAmount * 2 - shakeAmount;
-            //camPos.x += offsetX;
+            camPos.x += offsetX;
             camPos.y += offsetY;
 
             shakeObject.transform.position = camPos;

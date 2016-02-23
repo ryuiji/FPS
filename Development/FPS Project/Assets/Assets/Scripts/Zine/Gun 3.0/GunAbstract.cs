@@ -36,6 +36,12 @@ public abstract class GunAbstract : MonoBehaviour
     public Transform normalSpot;
     public float aimSpeed;
     public int damage;
+    public float minRecoilX;
+    public float maxRecoilX;
+    public float minRecoilY;
+    public float maxRecoilY;
+    public float recoilAmount;
+    public float maxRecoilAmount;
 
     [Header("Sound Files")]
     public AudioSource audioSource;
@@ -57,6 +63,10 @@ public abstract class GunAbstract : MonoBehaviour
     public abstract IEnumerator RateOfFire();
 
     public abstract void PullTrigger();
+
+    public abstract void IncreaseRecoil();
+
+    public abstract void DecreaseRecoil();
 
 
 
