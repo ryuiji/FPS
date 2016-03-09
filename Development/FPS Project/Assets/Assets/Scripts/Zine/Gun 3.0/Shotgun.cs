@@ -4,6 +4,7 @@ using System.Collections;
 public class Shotgun : GunAbstract {
 
 	public AudioClip pumpSound;
+    public AudioClip addBullet;
 
 	public void OnEnable()
     {
@@ -24,48 +25,68 @@ public class Shotgun : GunAbstract {
 
     public override IEnumerator Reload()
     {
+        #region
+        //if (isReloading == false)
+        //{
+        //    gunManager.isReloading = true;
+        //    StopCoroutine("RateOfFire");
+        //    isReloading = true;
+        //    mayFire = false;
+        //    if (looseAmmo == 0)
+        //    {
+        //        print("cant reload brah");
+        //        mayFire = true;
+        //        StopCoroutine("Reload");
+        //    }
+        //    audioSource.PlayOneShot(reload);
+        //    yield return new WaitForSeconds(reloadSpeed);
+        //    isReloading = false;
+        //    mayFire = true;
+        //    if (looseAmmo >= clipSize)
+        //    {
+        //        print("1");
+        //        looseAmmo -= clipSize - bulletsInClip;
+        //        bulletsInClip = clipSize;
+        //    }
+        //    else if (looseAmmo < clipSize && looseAmmo > 0)
+        //    {
+        //        print("2");
+        //        if (looseAmmo + bulletsInClip > clipSize)
+        //        {
+        //            looseAmmo -= clipSize - bulletsInClip;
+        //            bulletsInClip = clipSize;
+        //        }
+        //        else
+        //        {
+        //            bulletsInClip += looseAmmo;
+        //            looseAmmo -= looseAmmo;
+        //        }
 
-        if (isReloading == false)
+        //    }
+        //    gunManager.isReloading = false;
+        //}
+        //gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
+        #endregion 
+        mayFire=false;
+        for(int i = 0; i<clipSize; i++)
         {
-            gunManager.isReloading = true;
-            StopCoroutine("RateOfFire");
-            isReloading = true;
-            mayFire = false;
-            if (looseAmmo == 0)
+            if(bulletsInClip<clipSize && looseAmmo > 1)
             {
-                print("cant reload brah");
-                mayFire = true;
-                StopCoroutine("Reload");
+                audioSource.PlayOneShot(addBullet);
+                bulletsInClip++;
+                looseAmmo--;
+                gunManager.UpdateUI(bulletsInClip,looseAmmo,gunName);
+                yield return new WaitForSeconds(addBullet.length);
             }
-            audioSource.PlayOneShot(reload);
-            yield return new WaitForSeconds(reloadSpeed);
-            isReloading = false;
-            mayFire = true;
-            if (looseAmmo >= clipSize)
+            if(bulletsInClip==clipSize)
             {
-                print("1");
-                looseAmmo -= clipSize - bulletsInClip;
-                bulletsInClip = clipSize;
+                audioSource.PlayOneShot(pumpSound);
+                yield return new WaitForSeconds(pumpSound.length);
+                break;
             }
-            else if (looseAmmo < clipSize && looseAmmo > 0)
-            {
-                print("2");
-                if (looseAmmo + bulletsInClip > clipSize)
-                {
-                    looseAmmo -= clipSize - bulletsInClip;
-                    bulletsInClip = clipSize;
-                }
-                else
-                {
-                    bulletsInClip += looseAmmo;
-                    looseAmmo -= looseAmmo;
-                }
 
-            }
-            gunManager.isReloading = false;
         }
-        gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
-
+        mayFire=true;
 
     }
 

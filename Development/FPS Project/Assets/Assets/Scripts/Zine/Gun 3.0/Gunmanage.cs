@@ -74,7 +74,7 @@ public class Gunmanage : MonoBehaviour
             StartCoroutine(reload());
         }
 
-        if(Input.GetAxis("Horizontal")>0 || Input.GetAxis("Vertical") > 0 && isReloading==true && reload!=null)
+        if(Input.GetAxis("Horizontal")>0 || Input.GetAxis("Vertical") > 0 && isReloading==true && reload!=null && CheckGun(0)==false && CheckGun(1)==false)
         {
             StopCoroutine(reload());
             gunAudio.Stop();
