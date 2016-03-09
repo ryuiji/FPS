@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.ImageEffects;
 
 public class PlayerController : MonoBehaviour {
 
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour {
     private float gravity = 10f;
     public Vector3 tempRotation;
 
+    public float curRot;
+
     void Start() {
         cc = GetComponent<CharacterController>();
     }
@@ -20,6 +23,9 @@ public class PlayerController : MonoBehaviour {
         float horizontal = rotateSpeed * Input.GetAxis("Mouse X");
         transform.Rotate(0, horizontal, 0);
         mainCamera.transform.Rotate(vertical, 0, 0);
+        curRot += vertical;
+        curRot = Mathf.Clamp(curRot, 0, 30); //aanpassen wanneer we de main character hebben.
+        mainCamera.transform.localEulerAngles = new Vector3(curRot, mainCamera.transform.localEulerAngles.y, mainCamera.transform.localEulerAngles.z);
         Jump();
     }
 
