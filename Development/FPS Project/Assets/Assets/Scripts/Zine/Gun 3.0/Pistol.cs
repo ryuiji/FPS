@@ -18,6 +18,7 @@ public class Pistol : GunAbstract
         bullet.GetComponent<Bullet>().damage = damage;
         IncreaseRecoil();
         Instantiate(bullet, firePoint.position, firePoint.rotation);
+        gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
     }
 
     public override IEnumerator Reload()
@@ -61,6 +62,7 @@ public class Pistol : GunAbstract
             }
             gunManager.isReloading = true;
         }
+        gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
     }
 
     public override void Aim()
@@ -81,6 +83,10 @@ public class Pistol : GunAbstract
         gunManager.unAim = UnAim;
         gunManager.reload = Reload;
         gunManager.decrease = DecreaseRecoil;
+        gunManager.addAmmo = AddAmmo;
+        transform.position=normalSpot.position;
+        transform.rotation=normalSpot.rotation;
+        gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
     }
 
     public override void PullTrigger()
@@ -140,5 +146,11 @@ public class Pistol : GunAbstract
         mayFire = false;
         yield return new WaitForSeconds(fireRate);
         mayFire = true;
+    }
+
+    public override void AddAmmo(int bullets)
+    {
+        looseAmmo += bullets;
+        gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
     }
 }

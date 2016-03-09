@@ -68,6 +68,5 @@ public abstract class GunAbstract : MonoBehaviour
 
     public abstract void DecreaseRecoil();
 
-
-
+    public abstract void AddAmmo(int bullets);
 }

@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AK47 : GunAbstract
-{
-    public void OnEnable()
+public class Shotgun : GunAbstract {
+
+	public AudioClip pumpSound;
+
+	public void OnEnable()
     {
         fireRate = 60 / roundsPerMinute;
         gunManager.pass = PassDelegates;
@@ -14,7 +16,7 @@ public class AK47 : GunAbstract
         bulletsInClip--;
         print("firedAk");
         audioSource.PlayOneShot(fire);
-        bullet.GetComponent<Bullet>().damage=damage;
+        //bullet.GetComponent<Bullet>().damage=damage;
         IncreaseRecoil();
         Instantiate(bullet, firePoint.position + new Vector3(Random.Range(minRecoilX,maxRecoilX) * recoilAmount, Random.Range(minRecoilY, maxRecoilY) * recoilAmount, 0), firePoint.rotation);
         gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
@@ -146,7 +148,8 @@ public class AK47 : GunAbstract
     public override IEnumerator RateOfFire()
     {
         mayFire = false;
-        yield return new WaitForSeconds(fireRate);
+       	audioSource.PlayOneShot(pumpSound);
+        yield return new WaitForSeconds(pumpSound.length);
         mayFire = true;
     }
 
@@ -155,5 +158,4 @@ public class AK47 : GunAbstract
         looseAmmo+=bullets;
         gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
     }
-
 }
