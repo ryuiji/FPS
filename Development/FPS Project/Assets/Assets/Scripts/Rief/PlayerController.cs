@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
         transform.Rotate(0, horizontal, 0);
         Camera.main.transform.Rotate(vertical, 0, 0);
         curRot += vertical;
-        curRot = Mathf.Clamp(curRot, 0, 30); //aanpassen wanneer we de main character hebben. (1e naar boven, 2e naar onder)
+        curRot = Mathf.Clamp(curRot, 0, 30); //aanpassen wanneer we de main character hebben. (1e naar boven, 2e naar onder) k den
         Camera.main.transform.localEulerAngles = new Vector3(curRot, Camera.main.transform.localEulerAngles.y, Camera.main.transform.localEulerAngles.z);
     }
 
