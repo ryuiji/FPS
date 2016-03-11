@@ -4,10 +4,12 @@ using UnityStandardAssets.ImageEffects;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
-
+    
     public CharacterController cc;
     private Vector3 movement;
+    private float walking;
     private float moveSpeed = 4f;
+    private float runSpeed = 8f;
     private float rotateSpeed = 4f;
     private float jumpForce = 750f;
     private float gravity = 10f;
@@ -21,11 +23,12 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         MouseMoveClamp();
         Jump();
+        Sprint();
     }
 
     void FixedUpdate() {
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        movement *= moveSpeed * Time.deltaTime;
+        movement *= walking * Time.deltaTime;
         movement = transform.TransformDirection(movement);
         cc.Move(movement);
     }
@@ -46,5 +49,14 @@ public class PlayerController : MonoBehaviour {
         }
         movement.y -= gravity * Time.deltaTime;
         cc.Move(movement * Time.deltaTime);
+    }
+    void Sprint() {
+        if (Input.GetButton("Sprint")){
+            if (cc.isGrounded) {
+                walking = runSpeed;
+            }
+        } else {
+            walking = moveSpeed;
+        }
     }
 }
