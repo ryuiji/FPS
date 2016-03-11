@@ -123,6 +123,14 @@ public class Pistol : GunAbstract
                     break;
             }
         }
+        else if (bulletsInClip == 0)
+        {
+            if (Input.GetButton("Fire1") && mayFire == true)
+            {
+                audioSource.PlayOneShot(empty);
+                StartCoroutine("RateOfFire");
+            }
+        }
     }
 
     public override void IncreaseRecoil()

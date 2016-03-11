@@ -29,7 +29,7 @@ public class Gunmanage : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        SwitchWeapon(1);
     }
 
     // Update is called once per frame
@@ -69,16 +69,9 @@ public class Gunmanage : MonoBehaviour
             unAim();
         }
 
-        if(Input.GetButtonDown("Reload") && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && reload != null)
+        if(Input.GetButtonDown("Reload") && reload != null)
         {
             StartCoroutine(reload());
-        }
-
-        if(Input.GetAxis("Horizontal")>0 || Input.GetAxis("Vertical") > 0 && isReloading==true && reload!=null && CheckGun(0)==false && CheckGun(1)==false)
-        {
-            StopCoroutine(reload());
-            gunAudio.Stop();
-            isReloading=false;
         }
 
         if(Input.GetButtonDown("Use"))
@@ -110,6 +103,12 @@ public class Gunmanage : MonoBehaviour
                     else if(CheckGun(0)==true)
                     {
                         print("EMPTY");
+                        if (gunList[0] != null)
+                        {
+                            gunList[0].SetActive(true);
+                            gunList[0].transform.parent = null;
+                            gunList[0].GetComponent<Collider>().enabled = true;
+                        }
                         gunList[0]=hit.transform.gameObject;
                         gunList[0].transform.SetParent(transform);
                         gunList[0].GetComponent<Collider>().enabled=false;
@@ -131,6 +130,15 @@ public class Gunmanage : MonoBehaviour
             print("switched weapon");
             pass();
         }
+        else
+        {
+            ClearDelegates();
+            print("switched to empty");
+            currAmountText.text="0";
+            looseAmountText.text="0";
+            gunName.text= "Unarmed";
+
+}
 
     }
 
@@ -170,6 +178,16 @@ public class Gunmanage : MonoBehaviour
         currAmountText.text=current.ToString("F0");
         looseAmountText.text=loose.ToString("F0");
         gunName.text=name;
+    }
+
+    void ClearDelegates()
+    {
+        reload=null;
+        shoot=null;
+        aim=null;
+        unAim=null;
+        decrease=null;
+        addAmmo=null;
     }
 
 
