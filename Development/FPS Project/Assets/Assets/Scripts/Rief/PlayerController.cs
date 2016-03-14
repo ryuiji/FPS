@@ -15,15 +15,18 @@ public class PlayerController : MonoBehaviour {
     private float gravity = 10f;
     public Vector3 tempRotation;
     public float curRot;
+    public bool mayWalk;
 
     void Start() {
         cc = GetComponent<CharacterController>();
     }
 
     void Update() {
-        MouseMoveClamp();
-        Jump();
-        Sprint();
+        if (mayWalk == true) {
+            MouseMoveClamp();
+            Jump();
+            Sprint();
+        }
     }
 
     void FixedUpdate() {
