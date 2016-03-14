@@ -14,6 +14,10 @@ public class MenuManager : MonoBehaviour {
 	private bool showMenu = true;
 	private bool showOptions = true;
 
+	void Awake () {
+		Cursor.visible = false;
+	}
+
 	void GetInput () {
 		if(Input.GetButtonDown("Cancel")){
 			EnableDisableMenu();
@@ -22,6 +26,7 @@ public class MenuManager : MonoBehaviour {
 
 	public void EnableDisableMenu () {
 		Camera.main.GetComponent<DepthOfField>().enabled = showMenu;
+		Cursor.visible = showMenu;
 		leftCanvas.SetActive(showMenu);
 		optionMenu.SetActive(false);
 		showOptions = true;
@@ -59,7 +64,7 @@ public class MenuManager : MonoBehaviour {
 		showOptions = true;
 	}
 
-	public void Update () {
+	void Update () {
 		GetInput();
 	}
 }
