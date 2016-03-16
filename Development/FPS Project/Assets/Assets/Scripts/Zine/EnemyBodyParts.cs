@@ -31,6 +31,6 @@ public class EnemyBodyParts : MonoBehaviour
                 damage = damage / 2;
                 break;
         }
-        SendMessageUpwards("GetHit", damage);
+        SendMessageUpwards("TakeDamage", damage);
     }
 }
