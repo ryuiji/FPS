@@ -4,8 +4,15 @@ using System.Collections;
 public class Inspect : MonoBehaviour {
 	public float rayDistance;
 	private GameObject inspectObject;
+	public GameObject inspectText;
+	public GameObject inspectCanvas;
 	private bool inspecting;
-	private RaycastHit hit;
+	public RaycastHit hit;
+
+	public GameObject name;
+	public GameObject weight;
+	public GameObject tip;
+	public GameObject description;
 	
 	void Update () {
 		CheckBool();
@@ -21,22 +28,39 @@ public class Inspect : MonoBehaviour {
 
 	void ShootRay () {
 		Debug.DrawRay(transform.position, transform.forward, Color.red);
-		if(Physics.Raycast(transform.position, transform.forward, out hit, rayDistance)){
+		if(Physics.Raycast(transform.position, transform.forward, out hit, rayDistance)) {
 			CheckTag(hit);
+		}else{
+			inspectText.SetActive(false);
 		}
 	}
 
 	void CheckTag (RaycastHit hit) {
-		if(hit.transform.tag == "Inspect"){
-			Debug.Log("Hit");
-			if(Input.GetButtonDown("Use")){
-				inspectObject = hit.transform.gameObject;
+		if(hit.transform.tag == "Inspect") {
+			inspectText.SetActive(true);
+			if(Input.GetButtonDown("Use")) {
 				inspecting = true;
+				InspectObject();
+				inspectText.SetActive(false);
 			}
 		}
 	}
 
-	void InspectObject() {
+	void InspectObject () {
+		DisableMovement();
+		GetInfo();
+		inspectCanvas.SetActive(true);
+	}
 
+	void GetInfo () {
+		ItemStats itemStats = hit.transform.gameObject.GetComponent<ItemStats>();
+		name.GetComponent<Text>().text = itemStats.name;
+		weight.GetComponent<Text>().text = itemStats.weight.ToString();
+		tip.GetComponent<Text>().text = itemStats.tip;
+		description.GetComponent<Text>().text = itemStats.description;
+	}
+
+	void DisableMovement () {
+		//
 	}
 }
