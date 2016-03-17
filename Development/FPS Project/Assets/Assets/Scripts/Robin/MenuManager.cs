@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour {
 	private bool showOptions = true;
 
 	void Awake () {
-		Cursor.visible = false;
+		//Cursor.visible = false;
 	}
 
 	void GetInput () {
