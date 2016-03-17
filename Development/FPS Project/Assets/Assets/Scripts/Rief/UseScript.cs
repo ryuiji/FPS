@@ -17,7 +17,7 @@ public class UseScript : MonoBehaviour {
     void OpenCloseDoor() {
         if (Input.GetButtonDown("Use")) {
             if(Physics.Raycast(transform.position,transform.forward, out hit, rayDis) && hit.transform.tag == "Deur") {
-                print("hoi");
+                hit.transform.GetComponent<Animator>().SetTrigger("DoorInteraction");
             }
         }
     }
