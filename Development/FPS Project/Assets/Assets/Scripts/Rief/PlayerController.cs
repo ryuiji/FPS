@@ -18,7 +18,10 @@ public class PlayerController : MonoBehaviour {
     public bool mayWalk;
 
     void Start() {
+        mayWalk = true;
         cc = GetComponent<CharacterController>();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update() {
