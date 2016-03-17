@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
     public bool mayWalk;
 
     void Start() {
+        mayWalk = true;
         cc = GetComponent<CharacterController>();
     }
 
