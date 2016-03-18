@@ -17,6 +17,7 @@ public class Inspect : MonoBehaviour {
 	
 	void Update () {
 		CheckBool();
+		GetInput();
 	}
 
 	void CheckBool () {
@@ -24,6 +25,14 @@ public class Inspect : MonoBehaviour {
 			ShootRay();
 		}else{
 			InspectObject();
+		}
+	}
+
+	void GetInput () {
+		if(inspecting == true) {
+			if(Input.GetButtonDown("Cancel")) {
+				DisableInspecting();
+			}
 		}
 	}
 
@@ -53,6 +62,12 @@ public class Inspect : MonoBehaviour {
 		inspectCanvas.SetActive(true);
 	}
 
+	void DisableInspecting () {
+		inspecting = false;
+		EnableMovement();
+		inspectCanvas.SetActive(false);
+	}
+
 	void GetInfo () {
 		ItemStats itemStats = hit.transform.gameObject.GetComponent<ItemStats>();
 		name.GetComponent<Text>().text = itemStats.name;
@@ -62,6 +77,10 @@ public class Inspect : MonoBehaviour {
 	}
 
 	void DisableMovement () {
+		//
+	}
+
+	void EnableMovement () {
 		//
 	}
 }
