@@ -3,11 +3,8 @@ using System.Collections;
 
 public class Door : MonoBehaviour {
 
-	void Start () {
 	
-	}
-	
-	void Open () {
-        print("hoi");
+	public void Open () {
+        GetComponent<Animator>().SetTrigger("DoorInteraction");
 	}
 }
