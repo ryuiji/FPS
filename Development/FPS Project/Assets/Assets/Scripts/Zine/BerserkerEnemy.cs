@@ -44,6 +44,8 @@ public class BerserkerEnemy : EnemyAbstract
                 StopCoroutine("Attack");
                 agent.SetDestination(player.transform.position);
                 agent.Resume();
+                isAttacking = false;
+
             }
             if (Vector3.Distance(transform.position, player.transform.position) > lengthOfSight)
             {

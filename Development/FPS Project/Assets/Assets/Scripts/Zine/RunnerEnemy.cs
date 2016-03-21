@@ -46,6 +46,7 @@ public class RunnerEnemy : EnemyAbstract
                 StopCoroutine("Attack");
                 agent.SetDestination(player.transform.position);
                 agent.Resume();
+                isAttacking=false;
             }
             if (Vector3.Distance(transform.position, player.transform.position) > lengthOfSight)
             {
@@ -75,6 +76,7 @@ public class RunnerEnemy : EnemyAbstract
     {
         isAttacking = true;
         player.GetComponent<MakeShiftHp>().TakeDamage(damage);
+        audioSource.PlayOneShot(hitSound);
         yield return new WaitForSeconds(timeBetweenAttacks);
         StartCoroutine("Attack");
     }

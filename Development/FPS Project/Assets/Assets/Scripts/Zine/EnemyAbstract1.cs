@@ -16,6 +16,7 @@ public abstract class EnemyAbstract : MonoBehaviour
     public RaycastHit hit;
     public bool isAttacking;
     public AudioSource audioSource;
+    public AudioClip hitSound;
 
     public abstract void CheckForPlayer();
     public abstract bool CheckLineOfSight();
