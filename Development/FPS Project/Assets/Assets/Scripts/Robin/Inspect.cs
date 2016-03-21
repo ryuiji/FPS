@@ -9,12 +9,16 @@ public class Inspect : MonoBehaviour {
 	public GameObject inspectCanvas;
 	private bool inspecting;
 	public RaycastHit hit;
+	public Transform tempPosition;
+	private Vector3 oldPosition;
+	private Quaternion oldRotation;
 
 	public GameObject name;
 	public GameObject weight;
 	public GameObject tip;
 	public GameObject description;
-	
+	public float rotateSpeed;
+
 	void Update () {
 		CheckBool();
 		GetInput();
@@ -24,14 +28,14 @@ public class Inspect : MonoBehaviour {
 		if(inspecting == false){
 			ShootRay();
 		}else{
-			InspectObject();
+			InspectObject(hit);
 		}
 	}
 
 	void GetInput () {
 		if(inspecting == true) {
 			if(Input.GetButtonDown("Cancel")) {
-				DisableInspecting();
+				DisableInspecting(hit);
 			}
 		}
 	}
@@ -49,23 +53,38 @@ public class Inspect : MonoBehaviour {
 		if(hit.transform.tag == "Inspect") {
 			inspectText.SetActive(true);
 			if(Input.GetButtonDown("Use")) {
+				SavePosition(hit);
 				inspecting = true;
-				InspectObject();
+				InspectObject(hit);
 				inspectText.SetActive(false);
 			}
 		}
 	}
 
-	void InspectObject () {
+	void SavePosition (RaycastHit hit) {
+		oldPosition = hit.transform.position;
+		oldRotation = hit.transform.rotation;
+
+	}
+
+	void InspectObject (RaycastHit hit) {
 		DisableMovement();
 		GetInfo();
 		inspectCanvas.SetActive(true);
+		hit.transform.gameObject.layer = 8;
+		hit.transform.position = tempPosition.position;
+		if(Input.GetButton("Fire1")) {
+			hit.transform.Rotate(-Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime, -Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime,0, Space.World);
+		}
 	}
 
-	void DisableInspecting () {
+	void DisableInspecting (RaycastHit hit) {
 		inspecting = false;
 		EnableMovement();
 		inspectCanvas.SetActive(false);
+		hit.transform.gameObject.layer = 0;
+		hit.transform.position = oldPosition;
+		hit.transform.rotation = oldRotation;
 	}
 
 	void GetInfo () {

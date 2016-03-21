@@ -19,7 +19,7 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	void GetInput () {
-		if(Input.GetButtonDown("Cancel")){
+		if(Input.GetButtonDown("Cancel")) {
 			EnableDisableMenu();
 		}
 	}
