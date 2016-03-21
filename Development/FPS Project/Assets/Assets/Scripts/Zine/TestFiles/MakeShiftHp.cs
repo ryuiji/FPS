@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MakeShiftHp : MonoBehaviour
 {
     public int hp;
+    public Text text;
     // Use this for initialization
     void Start()
     {
@@ -23,6 +25,7 @@ public class MakeShiftHp : MonoBehaviour
         {
             Death();
         }
+        text.text=hp.ToString();
     }
 
     void Death()
