@@ -8,8 +8,7 @@ public class UseScript : MonoBehaviour {
 
 
 	void Start () {
-
-
+        
     }
     void Update() {
         ButtonInput();
@@ -17,7 +16,7 @@ public class UseScript : MonoBehaviour {
     void CanInteract(RaycastHit hit) {
         Bottle bottleP = hit.transform.GetComponent<Bottle>();
         Ammo ammoP = hit.transform.GetComponent<Ammo>();
-
+            
         switch (hit.transform.GetComponent<Interactable>().interact) {
             case Interactable.Interact.Door:
                 hit.transform.GetComponent<Door>().Open();
