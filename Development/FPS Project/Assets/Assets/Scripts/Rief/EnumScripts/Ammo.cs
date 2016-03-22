@@ -4,15 +4,16 @@ using System.Collections;
 public class Ammo : MonoBehaviour {
 
 
+
 	public void PistolAmmo () {
-        print("Pistol Ammo");
+        //link naar pistol ammo
 	}
 	
 	public void AKAmmo () {
-        print("AK Ammo");
+        //link naar ak ammo
 	}
 
     public void ShotgunAmmo() {
-        print("Shotgun Ammo");
+        //link naar shotgun ammo
     }
 }
