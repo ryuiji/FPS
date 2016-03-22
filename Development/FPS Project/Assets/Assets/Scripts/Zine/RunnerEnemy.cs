@@ -5,6 +5,7 @@ public class RunnerEnemy : EnemyAbstract
 {
     public AudioClip screamSound;
     public float sprintSpeed;
+    public ParticleSystem hitParticle;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -74,11 +75,18 @@ public class RunnerEnemy : EnemyAbstract
 
     public override IEnumerator Attack()
     {
-        isAttacking = true;
+    	hitParticle.Play();
         player.GetComponent<MakeShiftHp>().TakeDamage(damage);
         audioSource.PlayOneShot(hitSound);
+        StartCoroutine("AttackCoolDown");
+        return null;
+    }
+
+    public override IEnumerator AttackCoolDown()
+    {
+    	isAttacking=true;
         yield return new WaitForSeconds(timeBetweenAttacks);
-        StartCoroutine("Attack");
+        isAttacking = false;
     }
 
     public override void Chase()

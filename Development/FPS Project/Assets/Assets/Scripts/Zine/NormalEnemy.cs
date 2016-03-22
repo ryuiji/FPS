@@ -44,7 +44,6 @@ public class NormalEnemy : EnemyAbstract
                 StopCoroutine("Attack");
                 agent.SetDestination(player.transform.position);
                 agent.Resume();
-                isAttacking = false;
             }
             if (Vector3.Distance(transform.position, player.transform.position) > lengthOfSight)
             {
@@ -63,10 +62,17 @@ public class NormalEnemy : EnemyAbstract
 
     public override IEnumerator Attack()
     {
-        isAttacking=true;
         player.GetComponent<MakeShiftHp>().TakeDamage(damage);
+        audioSource.PlayOneShot(hitSound);
+        StartCoroutine("AttackCoolDown");
+        return null;
+    }
+
+    public override IEnumerator AttackCoolDown()
+    {
+        isAttacking=true;
         yield return new WaitForSeconds(timeBetweenAttacks);
-        StartCoroutine("Attack");
+        isAttacking = false;
     }
 
     public override void Chase()

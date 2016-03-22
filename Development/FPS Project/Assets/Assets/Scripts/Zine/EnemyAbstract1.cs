@@ -25,6 +25,7 @@ public abstract class EnemyAbstract : MonoBehaviour
 	public abstract void Chase();
 	public abstract void Roam();
 	public abstract IEnumerator Attack();
+	public abstract IEnumerator AttackCoolDown();
 	public abstract void TakeDamage(int damage);
 	public abstract IEnumerator Death();
 }

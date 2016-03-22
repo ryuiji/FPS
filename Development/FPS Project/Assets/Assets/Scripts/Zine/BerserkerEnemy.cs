@@ -64,10 +64,17 @@ public class BerserkerEnemy : EnemyAbstract
 
     public override IEnumerator Attack()
     {
-        isAttacking = true;
         player.GetComponent<MakeShiftHp>().TakeDamage(damage);
+        audioSource.PlayOneShot(hitSound);
+        StartCoroutine("AttackCoolDown");
+        return null;
+    }
+
+    public override IEnumerator AttackCoolDown()
+    {
+        isAttacking=true;
         yield return new WaitForSeconds(timeBetweenAttacks);
-        StartCoroutine("Attack");
+        isAttacking = false;
     }
 
     public override void Chase()

@@ -15,6 +15,8 @@ public class Shotgun : GunAbstract {
 
     public override void Shoot()
     {
+        GameObject muzzleSpawned = (GameObject) Instantiate(muzzle,firePoint.position,transform.rotation);
+        muzzleSpawned.transform.SetParent(firePoint);
         StartCoroutine("RateOfFire");
         bulletsInClip--;
         print("firedAk");

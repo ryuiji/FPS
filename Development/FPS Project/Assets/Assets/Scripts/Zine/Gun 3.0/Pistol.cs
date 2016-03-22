@@ -12,6 +12,8 @@ public class Pistol : GunAbstract
 
     public override void Shoot()
     {
+        GameObject muzzleSpawned = (GameObject) Instantiate(muzzle,firePoint.position,transform.rotation);
+        muzzleSpawned.transform.SetParent(firePoint);
         bulletsInClip--;
         print("firedPistol");
         audioSource.PlayOneShot(fire);
