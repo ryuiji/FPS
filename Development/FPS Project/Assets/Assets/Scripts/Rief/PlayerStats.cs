@@ -48,11 +48,11 @@ public class PlayerStats : MonoBehaviour {
             SanityRegen();
         }
         if(sanity <= 0) {
-            Destroy(gameObject, 0);
+            Die();
             //speel suicide animatie af
         }
     }
     void Die() {
-        Destroy(gameObject);
+        Destroy(gameObject, 5);
     }
 }
