@@ -4,20 +4,21 @@ using UnityEngine.UI;
 
 public class Inspect : MonoBehaviour {
 	public float rayDistance;
-	private GameObject inspectObject;
 	public GameObject inspectText;
 	public GameObject inspectCanvas;
-	private bool inspecting;
-	public RaycastHit hit;
 	public Transform tempPosition;
-	private Vector3 oldPosition;
-	private Quaternion oldRotation;
-
 	public GameObject name;
 	public GameObject weight;
 	public GameObject tip;
 	public GameObject description;
-	public float rotateSpeed;
+	public GameObject menuManager;
+
+	private GameObject inspectObject;
+	private bool inspecting;
+	private RaycastHit hit;
+	private Vector3 oldPosition;
+	private Quaternion oldRotation;
+	private float rotateSpeed = 1000;
 
 	void Update () {
 		CheckBool();
@@ -35,6 +36,7 @@ public class Inspect : MonoBehaviour {
 	void GetInput () {
 		if(inspecting == true) {
 			if(Input.GetButtonDown("Cancel")) {
+				menuManager.GetComponent<MenuManager>().canOpen = false;
 				DisableInspecting(hit);
 			}
 		}
@@ -68,11 +70,12 @@ public class Inspect : MonoBehaviour {
 	}
 
 	void InspectObject (RaycastHit hit) {
+		menuManager.GetComponent<MenuManager>().canOpen = false;
+		Cursor.visible = true;
 		DisableMovement();
 		GetInfo();
 		inspectCanvas.SetActive(true);
-		hit.transform.gameObject.layer = 8;
-		hit.transform.position = tempPosition.position;
+		SetObjectToTempLocation();
 		if(Input.GetButton("Fire1")) {
 			hit.transform.Rotate(-Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime, -Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime,0, Space.World);
 		}
@@ -80,11 +83,23 @@ public class Inspect : MonoBehaviour {
 
 	void DisableInspecting (RaycastHit hit) {
 		inspecting = false;
+		Cursor.visible = false;
 		EnableMovement();
+		SetObjectToldLocation();		
 		inspectCanvas.SetActive(false);
-		hit.transform.gameObject.layer = 0;
-		hit.transform.position = oldPosition;
-		hit.transform.rotation = oldRotation;
+		menuManager.GetComponent<MenuManager>().canOpen = true;
+	}
+
+	void SetObjectToTempLocation () {
+		hit.transform.gameObject.layer = 8;
+		hit.transform.position = tempPosition.position;
+	}
+
+	void SetObjectToldLocation () {
+		Transform transform = hit.transform;
+		transform.gameObject.layer = 0;
+		transform.position = oldPosition;
+		transform.rotation = oldRotation;
 	}
 
 	void GetInfo () {

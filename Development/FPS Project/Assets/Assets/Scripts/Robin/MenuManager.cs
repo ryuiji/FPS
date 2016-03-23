@@ -5,22 +5,24 @@ using UnityEngine.SceneManagement;
 using UnityStandardAssets.ImageEffects;
 
 public class MenuManager : MonoBehaviour {
+	public GameObject player;
 	public GameObject leftCanvas;
 	public GameObject rightCanvas;
 	public GameObject optionMenu;
-
 	public GameObject[] allMenus;
-
 	private bool showMenu = true;
 	private bool showOptions = true;
+	public bool canOpen;
 
 	void Awake () {
-		//Cursor.visible = false;
+		Cursor.visible = false;
 	}
 
 	void GetInput () {
 		if(Input.GetButtonDown("Cancel")) {
-			EnableDisableMenu();
+			if(canOpen == true) {
+				EnableDisableMenu();
+			}
 		}
 	}
 
