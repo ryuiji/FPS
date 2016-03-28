@@ -121,7 +121,7 @@ public class Gunmanage : MonoBehaviour
         }
     }
 
-    void SwitchWeapon(int i)
+    public void SwitchWeapon(int i)
     {
         DeactivateWeapons();
         if (gunList[i] != null)
@@ -142,7 +142,7 @@ public class Gunmanage : MonoBehaviour
 
     }
 
-    void DeactivateWeapons()
+    public void DeactivateWeapons()
     {
         for(int i =0; i<gunList.Length; i++)
         {
@@ -188,6 +188,22 @@ public class Gunmanage : MonoBehaviour
         unAim=null;
         decrease=null;
         addAmmo=null;
+    }
+
+    public int ReturnActiveWeapon()
+    {
+        if(gunList[0]==null)
+        {
+            return 1;
+        }
+        if(gunList[0].active==true) 
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
     }
 
 
