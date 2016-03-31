@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
     private float moveSpeed = 4f;
     private float runSpeed = 8f;
     private float rotateSpeed = 4f;
-    private float jumpForce = 750f;
+    private float jumpForce = 7f;
     private float gravity = 10f;
     public Vector3 tempRotation;
     public float curRot;
@@ -43,15 +43,16 @@ public class PlayerController : MonoBehaviour {
         float vertical = rotateSpeed * -Input.GetAxis("Mouse Y");
         float horizontal = rotateSpeed * Input.GetAxis("Mouse X");
         transform.Rotate(0, horizontal, 0);
-        Camera.main.transform.Rotate(vertical, 0, 0);
         curRot += vertical;
         curRot = Mathf.Clamp(curRot, -70, 30); //aanpassen wanneer we de main character hebben. (1e naar boven, 2e naar onder) k den
-        Camera.main.transform.localEulerAngles = new Vector3(curRot, Camera.main.transform.localEulerAngles.y, Camera.main.transform.localEulerAngles.z);
+        Quaternion rot = Quaternion.identity;
+        rot.eulerAngles = new Vector3(curRot, Camera.main.transform.localEulerAngles.y, Camera.main.transform.localEulerAngles.z);
+        Camera.main.transform.localRotation = rot;
     }
 
     void Jump() {
         if (Input.GetButtonDown ("Jump") && cc.isGrounded) {
-            movement.y = jumpForce * Time.deltaTime;
+            movement.y = jumpForce;
         }
         movement.y -= gravity * Time.deltaTime;
         cc.Move(movement * Time.deltaTime);
