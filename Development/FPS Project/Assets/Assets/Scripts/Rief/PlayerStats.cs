@@ -21,7 +21,9 @@ public class PlayerStats : MonoBehaviour {
     }
 
     void HealthRegen() {
-        hp += healthReg * Time.deltaTime;
+        if (hp >1 ) {
+            hp += healthReg * Time.deltaTime;
+        }
     }
 
     void SanityRegen() {
