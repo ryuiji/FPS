@@ -8,6 +8,7 @@ public class Hallicunation : MonoBehaviour
     public AudioClip hallicunation1ScreamSound, hallicunationPantSound;
     public CanvasGroup blackOut;
     public PlayerController controller;
+
     // Use this for initialization
     void Start()
     {
@@ -37,6 +38,7 @@ public class Hallicunation : MonoBehaviour
             image.alpha = 0;
         }
     }
+
 
 
     public IEnumerator HallicunationOne(CanvasGroup canvasgroup)
