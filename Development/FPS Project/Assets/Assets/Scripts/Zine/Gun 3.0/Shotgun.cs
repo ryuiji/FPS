@@ -5,6 +5,7 @@ public class Shotgun : GunAbstract {
 
 	public AudioClip pumpSound;
     public AudioClip addBullet;
+    public bool cancelAfternext;
 
 	public void OnEnable()
     {
@@ -14,6 +15,9 @@ public class Shotgun : GunAbstract {
 
     public override void Shoot()
     {
+        GameObject muzzleSpawned = (GameObject) Instantiate(muzzle,firePoint.position,transform.rotation);
+        muzzleSpawned.transform.SetParent(firePoint);
+        StartCoroutine("RateOfFire");
         bulletsInClip--;
         print("firedAk");
         audioSource.PlayOneShot(fire);
@@ -25,68 +29,39 @@ public class Shotgun : GunAbstract {
 
     public override IEnumerator Reload()
     {
-        #region
-        //if (isReloading == false)
-        //{
-        //    gunManager.isReloading = true;
-        //    StopCoroutine("RateOfFire");
-        //    isReloading = true;
-        //    mayFire = false;
-        //    if (looseAmmo == 0)
-        //    {
-        //        print("cant reload brah");
-        //        mayFire = true;
-        //        StopCoroutine("Reload");
-        //    }
-        //    audioSource.PlayOneShot(reload);
-        //    yield return new WaitForSeconds(reloadSpeed);
-        //    isReloading = false;
-        //    mayFire = true;
-        //    if (looseAmmo >= clipSize)
-        //    {
-        //        print("1");
-        //        looseAmmo -= clipSize - bulletsInClip;
-        //        bulletsInClip = clipSize;
-        //    }
-        //    else if (looseAmmo < clipSize && looseAmmo > 0)
-        //    {
-        //        print("2");
-        //        if (looseAmmo + bulletsInClip > clipSize)
-        //        {
-        //            looseAmmo -= clipSize - bulletsInClip;
-        //            bulletsInClip = clipSize;
-        //        }
-        //        else
-        //        {
-        //            bulletsInClip += looseAmmo;
-        //            looseAmmo -= looseAmmo;
-        //        }
-
-        //    }
-        //    gunManager.isReloading = false;
-        //}
-        //gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
-        #endregion 
-        mayFire=false;
-        for(int i = 0; i<clipSize; i++)
+        if(isReloading==false)
         {
-            if(bulletsInClip<clipSize && looseAmmo > 1)
+            mayFire = false;
+            isReloading = true;
+            for (int i = 0; i < clipSize; i++)
             {
-                audioSource.PlayOneShot(addBullet);
-                bulletsInClip++;
-                looseAmmo--;
-                gunManager.UpdateUI(bulletsInClip,looseAmmo,gunName);
-                yield return new WaitForSeconds(addBullet.length);
-            }
-            if(bulletsInClip==clipSize)
-            {
-                audioSource.PlayOneShot(pumpSound);
-                yield return new WaitForSeconds(pumpSound.length);
-                break;
-            }
+                if (bulletsInClip < clipSize && looseAmmo >=1)
+                {
+                    audioSource.PlayOneShot(addBullet);
+                    bulletsInClip++;
+                    looseAmmo--;
+                    gunManager.UpdateUI(bulletsInClip, looseAmmo, gunName);
+                    yield return new WaitForSeconds(addBullet.length);
+                    if (cancelAfternext == true)
+                    {
+                        cancelAfternext = false;
+                        isReloading=false;
+                        break;
+                    }
 
+                }
+                if (bulletsInClip == clipSize)
+                {
+                    audioSource.PlayOneShot(pumpSound);
+                    yield return new WaitForSeconds(pumpSound.length);
+                    break;
+                }
+
+            }
+            StartCoroutine("RateOfFire");
+            isReloading = false;
         }
-        mayFire=true;
+
 
     }
 
@@ -118,34 +93,42 @@ public class Shotgun : GunAbstract {
     {
         if (bulletsInClip >= 1)
         {
+            if(isReloading==true)
+            {
+                cancelAfternext = true;
+            }
             switch (fireMode)
             {
                 case CurrentFireMode.SemiAutomatic:
                     if (Input.GetButtonDown("Fire1") && mayFire == true)
                     {
                         Shoot();
-                        StartCoroutine("RateOfFire");
                     }
                     break;
                 case CurrentFireMode.Automatic:
                     if (mayFire == true)
                     {
                         Shoot();
-                        StartCoroutine("RateOfFire");
                     }
                     if (Input.GetButtonUp("Fire1"))
                     {
                         Shoot();
-                        StartCoroutine("RateOfFire");
                     }
                     break;
                 case CurrentFireMode.PumpAction:
                     if (mayFire == true)
                     {
                         Shoot();
-                        StartCoroutine("RateOfFire");
                     }
                     break;
+            }
+        }
+        else if(bulletsInClip==0)
+        {
+            if(Input.GetButton("Fire1") && mayFire==true)
+            {
+                audioSource.PlayOneShot(empty);
+                StartCoroutine("RateOfFire");
             }
         }
     }

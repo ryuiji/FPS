@@ -10,7 +10,7 @@ public enum BodyPart
 public class EnemyBodyParts : MonoBehaviour
 {
     public BodyPart partHit;
-
+    public GameObject particle;
     public void DoDamage(int damage)
     {
         switch (partHit)
@@ -31,6 +31,7 @@ public class EnemyBodyParts : MonoBehaviour
                 damage = damage / 2;
                 break;
         }
-        SendMessageUpwards("GetHit", damage);
+        SendMessageUpwards("TakeDamage", damage);
+        Instantiate(particle,transform.position,particle.transform.rotation);
     }
 }

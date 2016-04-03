@@ -11,6 +11,8 @@ public class AK47 : GunAbstract
 
     public override void Shoot()
     {
+        GameObject muzzleSpawned = (GameObject) Instantiate(muzzle,firePoint.position,transform.rotation);
+        muzzleSpawned.transform.SetParent(firePoint);
         bulletsInClip--;
         print("firedAk");
         audioSource.PlayOneShot(fire);
@@ -123,6 +125,14 @@ public class AK47 : GunAbstract
                         StartCoroutine("RateOfFire");
                     }
                     break;
+            }
+        }
+        else if (bulletsInClip == 0)
+        {
+            if (Input.GetButton("Fire1") && mayFire == true)
+            {
+                audioSource.PlayOneShot(empty);
+                StartCoroutine("RateOfFire");
             }
         }
     }

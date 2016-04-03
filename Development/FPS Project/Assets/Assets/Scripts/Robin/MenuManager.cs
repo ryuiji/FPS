@@ -5,23 +5,30 @@ using UnityEngine.SceneManagement;
 using UnityStandardAssets.ImageEffects;
 
 public class MenuManager : MonoBehaviour {
+	public GameObject player;
 	public GameObject leftCanvas;
 	public GameObject rightCanvas;
 	public GameObject optionMenu;
-
 	public GameObject[] allMenus;
-
 	private bool showMenu = true;
 	private bool showOptions = true;
+	public bool canOpen;
+
+	void Awake () {
+		Cursor.visible = false;
+	}
 
 	void GetInput () {
-		if(Input.GetButtonDown("Cancel")){
-			EnableDisableMenu();
+		if(Input.GetButtonDown("Cancel")) {
+			if(canOpen == true) {
+				EnableDisableMenu();
+			}
 		}
 	}
 
 	public void EnableDisableMenu () {
 		Camera.main.GetComponent<DepthOfField>().enabled = showMenu;
+		Cursor.visible = showMenu;
 		leftCanvas.SetActive(showMenu);
 		optionMenu.SetActive(false);
 		showOptions = true;
@@ -59,7 +66,7 @@ public class MenuManager : MonoBehaviour {
 		showOptions = true;
 	}
 
-	public void Update () {
+	void Update () {
 		GetInput();
 	}
 }
